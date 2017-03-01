@@ -1,0 +1,50 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.scorptech.turtleremote.carManagementScreen.CarManagementView">
+
+    <!-- TODO: Update blank fragment layout -->
+    <com.github.niqdev.mjpeg.MjpegSurfaceView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/mjpgView"
+        app:type="stream_default"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/seat_on"
+        android:id="@+id/ivSeatStatus"
+        app:layout_constraintTop_toTopOf="@+id/mjpgView"
+        app:layout_constraintLeft_toLeftOf="@+id/mjpgView"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/self_driving_off"
+        android:id="@+id/ivSelfDrivingStatus"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.scorptech.turtleremote.views.MovementControlPanel
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/mjpgView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="0dp"
+        app:layout_constraintRight_toRightOf="@+id/mjpgView"
+        app:layout_constraintTop_toBottomOf="@+id/ivSelfDrivingStatus"
+        android:layout_marginTop="150dp"
+        android:id="@+id/controlPanelContainer">
+    </com.scorptech.turtleremote.views.MovementControlPanel>
+
+</android.support.constraint.ConstraintLayout>

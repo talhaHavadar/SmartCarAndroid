@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Turtle Remote</string>
+    <string name="action_settings">Settings</string>
+    <string name="cars_title">Cars</string>
+    <string name="cars_subtitle">select a car</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_subtitle">change your settings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settings_notification_seat">Open Notifications For Seat</string>
+    <string name="settings_auto_self_driving">Auto Self-Driving</string>
+    <string name="add_car_title">Add Car</string>
+    <string name="add_car_subtitle">connect a car over wifi</string>
+</resources>
