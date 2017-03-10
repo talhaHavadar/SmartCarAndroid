@@ -25,6 +25,8 @@ import com.scorptech.turtleremote.mvp.MVPView;
 import com.scorptech.turtleremote.socket.UDPClient;
 import com.scorptech.turtleremote.socket.Client;
 import com.scorptech.turtleremote.socket.SocketListener;
+import com.scorptech.turtleremote.views.JoystickListener;
+import com.scorptech.turtleremote.views.MovementControlPanel;
 
 import java.util.regex.Pattern;
 
@@ -32,6 +34,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import rx.functions.Action1;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,7 +45,8 @@ public class CarManagementView extends MVPView<CarManagementPresenter> implement
     @BindView(R.id.mjpgView)
     MjpegSurfaceView mjpgView;
     private Unbinder unbinder;
-
+    @BindView(R.id.controlPanelContainer)
+    MovementControlPanel movementPanel;
 
     UDPClient client;
 
@@ -99,6 +104,13 @@ public class CarManagementView extends MVPView<CarManagementPresenter> implement
                         Toast.makeText(CarManagementView.this.getContext(), "Error: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
+
+        movementPanel.setJoystickListener(new JoystickListener() {
+            @Override
+            public void OnTouch(MovementControlPanel.Joystick joystick) {
+                Log.d(TAG, "OnTouch(JoystickListener): " + joystick.getPositionPercentage().toString());
+            }
+        });
     }
 
     @Override

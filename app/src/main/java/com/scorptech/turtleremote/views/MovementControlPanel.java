@@ -24,6 +24,7 @@ public class MovementControlPanel extends RelativeLayout implements View.OnTouch
     private static final String TAG = "MovementControlPanel";
 
     private Joystick mJoystick;
+    private JoystickListener mJoystickListener;
 
     public MovementControlPanel(Context context) {
         super(context);
@@ -52,6 +53,10 @@ public class MovementControlPanel extends RelativeLayout implements View.OnTouch
         mJoystick = new Joystick(this, resource);
     }
 
+    public void setJoystickListener(JoystickListener listener) {
+        mJoystickListener = listener;
+    }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
@@ -72,6 +77,9 @@ public class MovementControlPanel extends RelativeLayout implements View.OnTouch
                 break;
         }
 
+        if(mJoystickListener != null) {
+            mJoystickListener.OnTouch(mJoystick);
+        }
 
         return true;
     }
