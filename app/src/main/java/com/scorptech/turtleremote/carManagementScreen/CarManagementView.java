@@ -83,7 +83,8 @@ public class CarManagementView extends MVPView<CarManagementPresenter> implement
             }
         });
         client.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        Mjpeg.newInstance().open("http://192.168.1.1:8081", 5)
+        // Mjpeg.newInstance().open("http://192.168.1.1:8081", 5)
+        Mjpeg.newInstance().open("http://192.168.1.12:8080?action=stream", 5)
                 .subscribe(new Action1<MjpegInputStream>() {
                     @Override
                     public void call(MjpegInputStream mjpegInputStream) {

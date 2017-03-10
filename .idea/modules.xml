@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SmartCarAndroid.iml" filepath="$PROJECT_DIR$/SmartCarAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TurtleRemote.iml" filepath="$PROJECT_DIR$/TurtleRemote.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
