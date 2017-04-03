@@ -62,14 +62,12 @@ public class CarListAdapter extends BaseAdapter {
 
         Car item = getItem(i);
 
-        // TODO: implement list items dynamicaly not hardcoded
         holder.carId.setText("" + item.id);
-        holder.hardwareId.setText("Deneme");
         holder.image.setImageResource(R.mipmap.list_item_img);
         holder.settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Deneme ", Toast.LENGTH_SHORT).show();
+
             }
         });
         return view;

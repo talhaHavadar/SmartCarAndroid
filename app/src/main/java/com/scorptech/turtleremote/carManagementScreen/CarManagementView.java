@@ -25,6 +25,7 @@ import com.scorptech.turtleremote.mvp.MVPView;
 import com.scorptech.turtleremote.socket.UDPClient;
 import com.scorptech.turtleremote.socket.Client;
 import com.scorptech.turtleremote.socket.SocketListener;
+import com.scorptech.turtleremote.views.MovementControlPanel;
 
 import java.util.regex.Pattern;
 
@@ -40,7 +41,10 @@ public class CarManagementView extends MVPView<CarManagementPresenter> implement
 
     @BindView(R.id.mjpgView)
     MjpegSurfaceView mjpgView;
+    @BindView(R.id.controlPanelContainer)
+    MovementControlPanel movementControlPanel;
     private Unbinder unbinder;
+
 
 
     UDPClient client;
@@ -62,43 +66,9 @@ public class CarManagementView extends MVPView<CarManagementPresenter> implement
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        client= new UDPClient(7777);
-        client.setSocketListener(new SocketListener() {
-            @Override
-            public void onData(Client client, final String data) {
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String[] splittedResponse = data.split(Pattern.quote("|"));
-                            String command = splittedResponse[0];
-                            if (command.equalsIgnoreCase("dist_front")) {
-                                String val = splittedResponse[1];
-                            }
-                        }
-                    });
-                }
-
-            }
-        });
-        client.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        // Mjpeg.newInstance().open("http://192.168.1.1:8081", 5)
-        Mjpeg.newInstance().open("http://192.168.1.12:8080?action=stream", 5)
-                .subscribe(new Action1<MjpegInputStream>() {
-                    @Override
-                    public void call(MjpegInputStream mjpegInputStream) {
-                        mjpgView.setSource(mjpegInputStream);
-                        mjpgView.setDisplayMode(DisplayMode.FULLSCREEN);
-                        mjpgView.showFps(true);
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Log.e(getClass().getSimpleName(), "mjpeg error", throwable);
-                        Toast.makeText(CarManagementView.this.getContext(), "Error: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+        getPresenter().setupMjpegConnection();
+        getPresenter().setupSocketConnection();
+        movementControlPanel
     }
 
     @Override
@@ -140,5 +110,17 @@ public class CarManagementView extends MVPView<CarManagementPresenter> implement
     @Override
     public void backward(int power) {
 
+    }
+
+    @Override
+    public void mjpegConnectionSuccess(MjpegInputStream inputStream) {
+        mjpgView.setSource(inputStream);
+        mjpgView.setDisplayMode(DisplayMode.FULLSCREEN);
+        mjpgView.showFps(true);
+    }
+
+    @Override
+    public void mjpegConnectionError(Throwable throwable) {
+        Toast.makeText(CarManagementView.this.getContext(), "Error: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
     }
 }

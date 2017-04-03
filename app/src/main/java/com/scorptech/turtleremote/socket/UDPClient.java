@@ -66,7 +66,8 @@ public class UDPClient extends Client {
                 DatagramSocket socket = null;
                 try {
                     socket = new DatagramSocket();
-                    DatagramPacket packet = new DatagramPacket(dataBytes, dataBytes.length, InetAddress.getByName(toServer), port);
+                    DatagramPacket packet = new DatagramPacket(dataBytes, dataBytes.length,
+                                                    InetAddress.getByName(toServer), port);
                     socket.send(packet);
                     Log.d(TAG, "send(to" + toServer + "): " + data);
                 } catch (SocketException e) {

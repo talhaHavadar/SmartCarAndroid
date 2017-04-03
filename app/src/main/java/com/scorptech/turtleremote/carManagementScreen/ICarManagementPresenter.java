@@ -5,4 +5,8 @@ package com.scorptech.turtleremote.carManagementScreen;
  */
 
 public interface ICarManagementPresenter {
+
+    void setupSocketConnection();
+    void setupMjpegConnection();
+
 }
