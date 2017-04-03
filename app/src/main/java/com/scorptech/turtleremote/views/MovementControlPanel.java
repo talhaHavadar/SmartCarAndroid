@@ -78,7 +78,7 @@ public class MovementControlPanel extends RelativeLayout implements View.OnTouch
         }
 
         if(mJoystickListener != null) {
-            mJoystickListener.OnTouch(mJoystick);
+            mJoystickListener.onTouch(mJoystick);
         }
 
         return true;
@@ -180,6 +180,25 @@ public class MovementControlPanel extends RelativeLayout implements View.OnTouch
             pPosition.x = pPosition.x > 100 ? 100 : pPosition.x < 0 ? 0 : pPosition.x;
             pPosition.y = pPosition.y > 100 ? 100 : pPosition.y < 0 ? 0 : pPosition.y;
             return pPosition;
+        }
+
+        public JoystickPosition getResetPosition(JPosType type) {
+            JoystickPosition pos = new JoystickPosition();
+            switch (type) {
+                case RELATIVE:
+                    pos.type = JPosType.RELATIVE;
+                    pos.x = _initialLeft - mWidth/2;
+                    pos.y = _initialTop - mWidth/2;
+                    break;
+                case RELATIVE_PERCENTAGE:
+                    float x = _initialLeft - mWidth/2;
+                    float y = _initialTop - mWidth/2;
+                    pos.x = (int)((x / (float)(parent.getWidth() - (mWidth / 2))) * 100.0);
+                    pos.y = (int)((y / (float)(parent.getHeight() - (mWidth / 2))) * 100.0);
+                    pos.type = JPosType.RELATIVE_PERCENTAGE;
+                    break;
+            }
+            return pos;
         }
     }
 

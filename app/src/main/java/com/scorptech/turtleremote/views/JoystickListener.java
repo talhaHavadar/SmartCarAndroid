@@ -6,6 +6,6 @@ package com.scorptech.turtleremote.views;
 
 public interface JoystickListener {
 
-    void OnTouch(MovementControlPanel.Joystick joystick);
+    void onTouch(MovementControlPanel.Joystick joystick);
 
 }

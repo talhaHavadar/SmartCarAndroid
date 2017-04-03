@@ -40,12 +40,10 @@ import static android.content.ContentValues.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CarManagementView extends MVPView<CarManagementPresenter> implements ICarManagementView, SeekBar.OnSeekBarChangeListener {
+public class CarManagementView extends MVPView<CarManagementPresenter> implements ICarManagementView, SeekBar.OnSeekBarChangeListener, JoystickListener {
 
     @BindView(R.id.mjpgView)
     MjpegSurfaceView mjpgView;
-    @BindView(R.id.controlPanelContainer)
-    MovementControlPanel movementControlPanel;
     private Unbinder unbinder;
     @BindView(R.id.controlPanelContainer)
     MovementControlPanel movementPanel;
@@ -70,15 +68,10 @@ public class CarManagementView extends MVPView<CarManagementPresenter> implement
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        getPresenter().setupMjpegConnection();
+        //getPresenter().setupMjpegConnection();
         getPresenter().setupSocketConnection();
-        movementPanel.setJoystickListener(new JoystickListener() {
-            @Override
-            public void OnTouch(MovementControlPanel.Joystick joystick) {
-                Log.d(TAG, "OnTouch(JoystickListener): " + joystick.getPositionPercentage().toString());
-            }
-        });
+        movementPanel.setJoystickListener(this);
+
     }
 
     @Override
@@ -132,5 +125,15 @@ public class CarManagementView extends MVPView<CarManagementPresenter> implement
     @Override
     public void mjpegConnectionError(Throwable throwable) {
         Toast.makeText(CarManagementView.this.getContext(), "Error: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void toast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void onTouch(MovementControlPanel.Joystick joystick) {
+        getPresenter().evaluateJoystick(joystick);
     }
 }

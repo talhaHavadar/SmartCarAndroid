@@ -13,4 +13,6 @@ public interface ICarManagementView {
     void backward(int power);
     void mjpegConnectionSuccess(MjpegInputStream inputStream);
     void mjpegConnectionError(Throwable throwable);
+    void toast(String message);
+
 }
