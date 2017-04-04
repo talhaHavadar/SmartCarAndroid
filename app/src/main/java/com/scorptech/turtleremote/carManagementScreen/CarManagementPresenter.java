@@ -11,6 +11,7 @@ import com.scorptech.turtleremote.carsScreen.CarsView;
 import com.scorptech.turtleremote.carsScreen.ICarsView;
 import com.scorptech.turtleremote.mvp.Presenter;
 import com.scorptech.turtleremote.socket.Client;
+import com.scorptech.turtleremote.socket.CommandBuilder;
 import com.scorptech.turtleremote.socket.SocketListener;
 import com.scorptech.turtleremote.socket.UDPClient;
 import com.scorptech.turtleremote.views.MovementControlPanel;
@@ -80,7 +81,14 @@ public class CarManagementPresenter extends Presenter<CarManagementView> impleme
 
     @Override
     public void evaluateJoystick(MovementControlPanel.Joystick joystick) {
-        client.send(joystick.getPositionPercentage().toString(), "192.168.1.3", 4444);
+
+        MovementControlPanel.JoystickPosition jPosition = joystick.getPositionPercentage();
+        CommandBuilder.Command command = new CommandBuilder()
+                .setType(CommandBuilder.CommandType.JOYSTICK)
+                .addArgument("" + jPosition.x)
+                .addArgument("" + jPosition.y)
+                .build();
+        client.send(command.getCommandString(), "192.168.1.3", 4444);
         client.send(joystick.getResetPosition(MovementControlPanel.JPosType.RELATIVE_PERCENTAGE).toString(), "192.168.1.3", 4444);
     }
 }
