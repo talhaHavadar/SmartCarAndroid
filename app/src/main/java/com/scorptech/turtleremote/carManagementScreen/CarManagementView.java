@@ -47,7 +47,7 @@ public class CarManagementView extends MVPView<CarManagementPresenter> implement
     private Unbinder unbinder;
     @BindView(R.id.controlPanelContainer)
     MovementControlPanel movementPanel;
-
+    CarManagementPresenter presenter;
 
     UDPClient client;
 
@@ -76,7 +76,9 @@ public class CarManagementView extends MVPView<CarManagementPresenter> implement
 
     @Override
     public CarManagementPresenter getPresenter() {
-        return new CarManagementPresenter(this);
+        if (presenter == null)
+            presenter = new CarManagementPresenter(this);
+        return presenter;
     }
 
     @Override

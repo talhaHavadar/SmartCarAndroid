@@ -2,17 +2,14 @@ package com.scorptech.turtleremote.carManagementScreen;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.github.niqdev.mjpeg.DisplayMode;
 import com.github.niqdev.mjpeg.Mjpeg;
 import com.github.niqdev.mjpeg.MjpegInputStream;
-import com.scorptech.turtleremote.carsScreen.CarsView;
-import com.scorptech.turtleremote.carsScreen.ICarsView;
 import com.scorptech.turtleremote.mvp.Presenter;
 import com.scorptech.turtleremote.socket.Client;
 import com.scorptech.turtleremote.socket.CommandBuilder;
 import com.scorptech.turtleremote.socket.SocketListener;
+import com.scorptech.turtleremote.socket.TCPClient;
 import com.scorptech.turtleremote.socket.UDPClient;
 import com.scorptech.turtleremote.views.MovementControlPanel;
 
@@ -28,10 +25,12 @@ public class CarManagementPresenter extends Presenter<CarManagementView> impleme
 
     CarManagementView mView;
     UDPClient client;
+    TCPClient tcpClient;
 
     public CarManagementPresenter(CarManagementView view) {
         mView = view;
         client= new UDPClient(7777);
+        tcpClient = new TCPClient("192.168.1.2", 4444);
     }
 
     @Override
@@ -56,10 +55,11 @@ public class CarManagementPresenter extends Presenter<CarManagementView> impleme
                         }
                     });
                 }
-
             }
         });
-        client.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        //client.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        client.connect();
+        tcpClient.connect();
     }
 
     @Override
@@ -88,7 +88,11 @@ public class CarManagementPresenter extends Presenter<CarManagementView> impleme
                 .addArgument("" + jPosition.x)
                 .addArgument("" + jPosition.y)
                 .build();
-        client.send(command.getCommandString(), "192.168.1.3", 4444);
-        client.send(joystick.getResetPosition(MovementControlPanel.JPosType.RELATIVE_PERCENTAGE).toString(), "192.168.1.3", 4444);
+        if (tcpClient != null)
+            tcpClient.send(command.getCommandString());
+        else {
+            Log.e("TCPClient", "null");
+        }
+        //client.send(joystick.getResetPosition(MovementControlPanel.JPosType.RELATIVE_PERCENTAGE).toString(), "192.168.1.3", 4444);
     }
 }

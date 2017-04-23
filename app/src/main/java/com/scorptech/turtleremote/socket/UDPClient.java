@@ -19,7 +19,7 @@ import java.net.UnknownHostException;
  * Created by talhahavadar on 14/01/2017.
  */
 
-public class UDPClient extends Client {
+public class UDPClient extends Client implements Client.IUDPClient {
 
     private static final String TAG = "UDPClient";
 
@@ -28,14 +28,13 @@ public class UDPClient extends Client {
     }
 
     @Override
-    protected Void doInBackground(Object... voids) {
+    protected UDPClient doInBackground(Object... voids) {
         DatagramSocket socket;
         socket = null;
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             socket = new DatagramSocket(this.sourcePort, InetAddress.getByName(this.sourceAddress));
-            int readed;
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             while (true) {
                 socket.receive(packet);
@@ -54,6 +53,11 @@ public class UDPClient extends Client {
         }
 
         return null;
+    }
+
+    @Override
+    public void connect(Object... params) {
+        this.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override

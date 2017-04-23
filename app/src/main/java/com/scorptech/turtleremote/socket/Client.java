@@ -6,7 +6,7 @@ import android.os.AsyncTask;
  * Created by talhahavadar on 14/01/2017.
  */
 
-public abstract class Client extends AsyncTask<Object, Void, Void> {
+public abstract class Client extends AsyncTask<Object, Void, Client> {
 
     SocketListener mListener;
     String sourceAddress;
@@ -18,12 +18,20 @@ public abstract class Client extends AsyncTask<Object, Void, Void> {
     }
 
     @Override
-    protected abstract Void doInBackground(Object... voids);
+    protected abstract Client doInBackground(Object... voids);
+
+    public abstract void connect(Object... params);
 
     public void setSocketListener(SocketListener listener) {
         this.mListener = listener;
     }
 
-    public abstract void send(String data, String toServer, int port);
+    public interface IUDPClient {
+        void send(String data, String toServer, int port);
+    }
 
+    public interface ITCPClient {
+        void send(String data);
+        void close();
+    }
 }
